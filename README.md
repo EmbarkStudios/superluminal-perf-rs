@@ -1,4 +1,4 @@
-# 🐏 superluminal-perf-rs
+# 🔆 superluminal-perf-rs
 
 [![Build Status](https://github.com/EmbarkStudios/superluminal-perf-rs/workflows/CI/badge.svg)](https://github.com/EmbarkStudios/superluminal-perf-rs/actions?workflow=CI)
 [![Crates.io](https://img.shields.io/crates/v/superluminal-perf.svg)](https://crates.io/crates/superluminal-perf)
@@ -6,7 +6,7 @@
 [![Contributor Covenant](https://img.shields.io/badge/contributor%20covenant-v1.4%20adopted-ff69b4.svg)](CODE_OF_CONDUCT.md)
 [![Embark](https://img.shields.io/badge/embark-open%20source-blueviolet.svg)](http://embark.dev)
 
-Rust-bindings to [Superluminal Performance](https://superluminal.eu/) profiler API for Windows for adding user events to captures.
+[Superluminal Performance](https://superluminal.eu/) profiler Rust API for adding user events to captures.
 
 ## How to use
 
