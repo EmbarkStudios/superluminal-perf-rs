@@ -23,7 +23,6 @@
 )]
 //#![deny(missing_docs)]
 
-use std::ffi::CStr;
 #[cfg(all(feature = "enable", target_os = "windows"))]
 use superluminal_perf_sys as ffi;
 
@@ -38,16 +37,9 @@ pub const fn enabled() -> bool {
 pub fn begin_event(id: &'static [u8]) {
     #[cfg(all(feature = "enable", target_os = "windows"))]
     unsafe {
-        let id_cstr = CStr::from_bytes_with_nul(id)
+        let id_cstr = std::ffi::CStr::from_bytes_with_nul(id)
             .expect("Invalid ID string, must be null-terminated and not contain interior null");
         ffi::PerformanceAPI_BeginEvent(id_cstr.as_ptr(), std::ptr::null(), ffi::DEFAULT_COLOR)
-    }
-}
-
-pub fn begin_event_cstr(id: &'static CStr) {
-    #[cfg(all(feature = "enable", target_os = "windows"))]
-    unsafe {
-        ffi::PerformanceAPI_BeginEvent(id.as_ptr(), std::ptr::null(), ffi::DEFAULT_COLOR)
     }
 }
 
@@ -58,9 +50,9 @@ pub fn begin_event_cstr(id: &'static CStr) {
 pub fn begin_event_with_data(id: &'static [u8], data: &[u8]) {
     #[cfg(all(feature = "enable", target_os = "windows"))]
     unsafe {
-        let id_cstr = CStr::from_bytes_with_nul(id)
+        let id_cstr = std::ffi::CStr::from_bytes_with_nul(id)
             .expect("Invalid ID string, must be null-terminated and not contain interior null");
-        let data_cstr = CStr::from_bytes_with_nul(data)
+        let data_cstr = std::ffi::CStr::from_bytes_with_nul(data)
             .expect("Invalid data string, must be null-terminated and not contain interior null");
         ffi::PerformanceAPI_BeginEvent(id_cstr.as_ptr(), data_cstr.as_ptr(), ffi::DEFAULT_COLOR)
     }
