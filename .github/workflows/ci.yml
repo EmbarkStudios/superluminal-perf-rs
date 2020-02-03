@@ -44,7 +44,8 @@ jobs:
       - name: cargo build
         uses: actions-rs/cargo@v1
         with:
-          command: build --release
+          command: build
+          args: --release
 
       - name: run example
         uses: actions-rs/cargo@v1
