@@ -22,7 +22,6 @@ test = false
 [target.'cfg(windows)'.dependencies]
 superluminal-perf-sys = { version = "*", path = "sys" }
 
-
 [features]
 default = ["enable"]
 enable = []
