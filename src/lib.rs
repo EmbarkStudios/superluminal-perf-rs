@@ -4,6 +4,11 @@ use std::ffi::CStr;
 #[cfg(all(feature = "enable", target_os = "windows"))]
 use superluminal_perf_sys as ffi;
 
+/// Check if the API is enabled
+pub const fn enabled() -> bool {
+    cfg!(all(feature = "enable", target_os = "windows"))
+}
+
 /// Begin an instrumentation event with the specified ID
 ///
 /// The ID for a specific scope must be the same over the lifetime of the program
@@ -13,18 +18,6 @@ pub fn begin_event(id: &'static [u8]) {
         let cstr = CStr::from_bytes_with_nul(id)
             .expect("Invalid ID string, must be null-terminated and not contain interior null");
         ffi::PerformanceAPI_BeginEvent(cstr.as_ptr(), std::ptr::null(), ffi::DEFAULT_COLOR)
-    }
-}
-
-pub fn begin_event2(id: &'static [u8]) {
-    #[cfg(all(feature = "enable", target_os = "windows"))]
-    unsafe {
-        println!("id.len(): {}, id.ptr: {:?}", id.len(), id.as_ptr());
-        ffi::PerformanceAPI_BeginEvent(
-            id.as_ptr() as *const i8,
-            std::ptr::null(),
-            ffi::DEFAULT_COLOR,
-        )
     }
 }
 

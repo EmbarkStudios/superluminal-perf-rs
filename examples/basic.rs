@@ -9,6 +9,8 @@ fn heavy_calc1() -> Wrapping<u64> {
 }
 
 fn main() {
+    println!("Enabled: {}", superluminal_perf::enabled());
+
     // work 1
 
     superluminal_perf::begin_event(b"example_loop_1\0");
