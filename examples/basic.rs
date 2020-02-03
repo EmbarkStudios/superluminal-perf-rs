@@ -35,5 +35,7 @@ fn big_fn() {
 fn main() {
     println!("Enabled: {}", superluminal_perf::enabled());
 
+    superluminal_perf::set_current_thread_name("mythread").unwrap();
+
     big_fn();
 }
