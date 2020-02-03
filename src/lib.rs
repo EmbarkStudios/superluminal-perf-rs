@@ -1,4 +1,27 @@
 #![allow(unused_variables)]
+#![warn(
+    clippy::all,
+    clippy::doc_markdown,
+    clippy::dbg_macro,
+    clippy::todo,
+    clippy::empty_enum,
+    clippy::enum_glob_use,
+    clippy::pub_enum_variant_names,
+    clippy::mem_forget,
+    clippy::use_self,
+    clippy::filter_map_next,
+    clippy::needless_continue,
+    clippy::needless_borrow,
+    rust_2018_idioms,
+    future_incompatible,
+    trivial_numeric_casts,
+    unstable_features,
+    nonstandard_style,
+    unused_import_braces,
+    unused_qualifications,
+    unused_results
+)]
+//#![deny(missing_docs)]
 
 use std::ffi::CStr;
 #[cfg(all(feature = "enable", target_os = "windows"))]
@@ -43,7 +66,7 @@ pub fn begin_event_with_data(id: &'static [u8], data: &[u8]) {
     }
 }
 
-/// End an instrumentation event. Must be matched with a call to BeginEvent within the same function
+/// End an instrumentation event. Must be matched with a call to `BeginEvent` within the same function
 pub fn end_event() {
     #[cfg(all(feature = "enable", target_os = "windows"))]
     unsafe {
