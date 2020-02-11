@@ -11,7 +11,8 @@ fn runtime() -> &'static str {
 
 fn main() {
     println!(
-        "cargo:rustc-link-lib=external/lib/x64/PerformanceAPI_{}",
-        runtime()
+        "cargo:rustc-link-search={}/external/lib/x64/",
+        std::env!("CARGO_MANIFEST_DIR")
     );
+    println!("cargo:rustc-link-lib=PerformanceAPI_{}", runtime())
 }
