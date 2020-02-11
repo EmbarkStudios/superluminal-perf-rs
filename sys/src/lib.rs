@@ -3,8 +3,7 @@ use libc::c_char;
 pub const DEFAULT_COLOR: u32 = 0xFF_FF_FF_FF;
 
 #[repr(C)]
-pub struct PerformanceAPI_SuppressTailCallOptimization 
-{ 
+pub struct PerformanceAPI_SuppressTailCallOptimization {
     _private: [u64; 3] 
 }
 
