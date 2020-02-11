@@ -62,7 +62,9 @@ pub fn begin_event_with_data(id: &'static [u8], data: &[u8]) {
 pub fn end_event() {
     #[cfg(all(feature = "enable", target_os = "windows"))]
     unsafe {
-        ffi::PerformanceAPI_EndEvent();
+        // PerformanceAPI_EndEvent returns a struct which is only used to prevent calls to it from being tail-call optimized.
+        // We ignore the return value here so the caller of end_event doesn't need to deal with it.
+        let _ = ffi::PerformanceAPI_EndEvent();
     }
 }
 
