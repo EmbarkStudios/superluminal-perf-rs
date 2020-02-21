@@ -22,6 +22,10 @@
 //! ```
 //!
 //! On non-Windows platforms the events will be compiled out.
+//!
+//! ## Feature flags
+//!
+//! - `enable` - this flag is used by default and enables calling the Superluminal Performance API. This can be useful to only enable the events only for specific application features
 
 #![allow(unused_variables)]
 #![warn(
