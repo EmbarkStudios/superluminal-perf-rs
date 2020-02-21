@@ -29,7 +29,7 @@ calc2();
 superluminal_perf::end_event();
 ```
 
-On non-Windows platforms the events will compile out.
+On non-Windows platforms the events will be compiled out.
 
 ## Contributing
 

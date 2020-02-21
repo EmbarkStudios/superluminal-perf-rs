@@ -1,3 +1,28 @@
+//! [Superluminal Performance](https://superluminal.eu/) profiler Rust API for adding user events to captures.
+//!
+//! ## How to use
+//!
+//! In `Cargo.toml` add:
+//!
+//! ```toml
+//! [dependencies]
+//! superluminal-perf = "0.1.0"
+//! ```
+//!
+//! Example usage:
+//!
+//! ```rust
+//! superluminal_perf::begin_event(b"my-event\0");
+//! calc();
+//! superluminal_perf::end_event();
+//!
+//! superluminal_perf::begin_event(b"my-event2\0");
+//! calc2();
+//! superluminal_perf::end_event();
+//! ```
+//!
+//! On non-Windows platforms the events will be compiled out.
+
 #![allow(unused_variables)]
 #![warn(
     clippy::all,
@@ -19,9 +44,9 @@
     nonstandard_style,
     unused_import_braces,
     unused_qualifications,
-    unused_results
+    unused_results,
+    missing_docs
 )]
-//#![deny(missing_docs)]
 
 #[cfg(all(feature = "enable", target_os = "windows"))]
 use superluminal_perf_sys as ffi;
@@ -40,6 +65,18 @@ pub fn begin_event(id: &'static [u8]) {
         let id_cstr = std::ffi::CStr::from_bytes_with_nul(id)
             .expect("Invalid ID string, must be null-terminated and not contain interior null");
         ffi::PerformanceAPI_BeginEvent(id_cstr.as_ptr(), std::ptr::null(), ffi::DEFAULT_COLOR)
+    }
+}
+
+/// Begin an instrumentation event with the specified ID and color
+///
+/// The ID for a specific scope must be the same over the lifetime of the program
+pub fn begin_event_with_color(id: &'static [u8], color: u32) {
+    #[cfg(all(feature = "enable", target_os = "windows"))]
+    unsafe {
+        let id_cstr = std::ffi::CStr::from_bytes_with_nul(id)
+            .expect("Invalid ID string, must be null-terminated and not contain interior null");
+        ffi::PerformanceAPI_BeginEvent(id_cstr.as_ptr(), std::ptr::null(), color)
     }
 }
 
