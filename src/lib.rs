@@ -95,7 +95,9 @@ pub fn begin_event_with_data(id: &'static [u8], data: &[u8]) {
     }
 }
 
-/// End an instrumentation event. Must be matched with a call to `BeginEvent` within the same function
+/// End an instrumentation event.
+///
+/// Must be matched with a call to `begin_event` within the same function
 pub fn end_event() {
     #[cfg(all(feature = "enable", target_os = "windows"))]
     unsafe {
@@ -105,7 +107,7 @@ pub fn end_event() {
     }
 }
 
-/// Set the name of the current thread to the specified thread name
+/// Set the name of the current thread
 pub fn set_current_thread_name(name: &str) -> Result<(), std::ffi::NulError> {
     #[cfg(all(feature = "enable", target_os = "windows"))]
     unsafe {
