@@ -29,7 +29,25 @@ jobs:
           args: -- -D warnings
 
   test:
-    name: Build & run
+    name: Test
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+
+      - name: cargo build
+        uses: actions-rs/cargo@v1
+        with:
+          command: test
+
+  example:
+    name: Example
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macOS-latest]
