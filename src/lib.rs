@@ -52,6 +52,9 @@
     missing_docs
 )]
 
+#[cfg(test)]
+mod test;
+
 #[cfg(all(feature = "enable", target_os = "windows"))]
 use superluminal_perf_sys as ffi;
 
@@ -61,8 +64,6 @@ pub const fn enabled() -> bool {
 }
 
 /// Begin an instrumentation event with the specified ID
-///
-/// The ID for a specific scope must be the same over the lifetime of the program
 ///
 /// # Panics
 ///
@@ -78,8 +79,6 @@ pub fn begin_event(id: &'static [u8]) {
 
 /// Begin an instrumentation event with the specified ID and color
 ///
-/// The ID for a specific scope must be the same over the lifetime of the program
-///
 /// # Panics
 ///
 /// Panics if the id is not a UTF-8 encoded and null-terminated string or if it contains interior nulls
@@ -94,7 +93,6 @@ pub fn begin_event_with_color(id: &'static [u8], color: u32) {
 
 /// Begin an instrumentation event with the specified ID and runtime data
 ///
-/// The ID for a specific scope must be the same over the lifetime of the program.
 /// The data can vary for each invocation of this scope and is intended to hold information that is only available at runtime.
 ///
 /// # Panics
