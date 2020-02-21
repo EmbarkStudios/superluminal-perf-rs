@@ -10,6 +10,7 @@ fn simple() {
 
 #[test]
 #[should_panic]
+#[cfg(windows)]
 pub fn invalid_str() {
     begin_event(b"test1");
     begin_event(b"test1\0aha");
