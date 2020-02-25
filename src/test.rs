@@ -10,7 +10,7 @@ fn simple() {
 
 #[test]
 fn thread() {
-    set_current_thread_name("my test thread").unwrap();
+    set_current_thread_name("my test thread");
     begin_event("test1");
     end_event();
 }

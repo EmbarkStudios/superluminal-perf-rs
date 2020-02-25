@@ -120,10 +120,9 @@ pub fn end_event() {
 }
 
 /// Set the name of the current thread
-pub fn set_current_thread_name(name: &str) -> Result<(), std::ffi::NulError> {
+pub fn set_current_thread_name(name: &str) {
     #[cfg(all(feature = "enable", target_os = "windows"))]
     unsafe {
         ffi::PerformanceAPI_SetCurrentThreadName_N(name.as_ptr() as *const i8, name.len() as u16)
     }
-    Ok(())
 }
