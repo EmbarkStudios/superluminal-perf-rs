@@ -9,10 +9,19 @@ pub struct PerformanceAPI_SuppressTailCallOptimization {
 
 extern "C" {
     pub fn PerformanceAPI_SetCurrentThreadName(in_thread_name: *const c_char);
-    pub fn PerformanceAPI_SetCurrentThreadName_N(in_thread_name: *const c_char, in_thread_name_len: u16);
+    pub fn PerformanceAPI_SetCurrentThreadName_N(
+        in_thread_name: *const c_char,
+        in_thread_name_len: u16,
+    );
 
     pub fn PerformanceAPI_BeginEvent(in_id: *const c_char, in_data: *const c_char, in_color: u32);
-    pub fn PerformanceAPI_BeginEvent_N(in_id: *const c_char, in_id_len: u16, in_data: *const c_char, in_data_len: u16, in_color: u32);
+    pub fn PerformanceAPI_BeginEvent_N(
+        in_id: *const c_char,
+        in_id_len: u16,
+        in_data: *const c_char,
+        in_data_len: u16,
+        in_color: u32,
+    );
 
     pub fn PerformanceAPI_EndEvent() -> PerformanceAPI_SuppressTailCallOptimization;
 }

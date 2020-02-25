@@ -68,11 +68,12 @@ pub fn begin_event(id: &str) {
     #[cfg(all(feature = "enable", target_os = "windows"))]
     unsafe {
         ffi::PerformanceAPI_BeginEvent_N(
-            id.as_ptr() as *const i8, 
-            id.len() as u16, 
+            id.as_ptr() as *const i8,
+            id.len() as u16,
             std::ptr::null(),
             0,
-            ffi::DEFAULT_COLOR)
+            ffi::DEFAULT_COLOR,
+        )
     }
 }
 
@@ -81,11 +82,12 @@ pub fn begin_event_with_color(id: &str, color: u32) {
     #[cfg(all(feature = "enable", target_os = "windows"))]
     unsafe {
         ffi::PerformanceAPI_BeginEvent_N(
-            id.as_ptr() as *const i8, 
-            id.len() as u16, 
+            id.as_ptr() as *const i8,
+            id.len() as u16,
             std::ptr::null(),
             0,
-            color)
+            color,
+        )
     }
 }
 
@@ -96,11 +98,12 @@ pub fn begin_event_with_data(id: &str, data: &str) {
     #[cfg(all(feature = "enable", target_os = "windows"))]
     unsafe {
         ffi::PerformanceAPI_BeginEvent_N(
-            id.as_ptr() as *const i8, 
-            id.len() as u16, 
-            data.as_ptr() as *const i8, 
-            data.len() as u16, 
-            ffi::DEFAULT_COLOR)
+            id.as_ptr() as *const i8,
+            id.len() as u16,
+            data.as_ptr() as *const i8,
+            data.len() as u16,
+            ffi::DEFAULT_COLOR,
+        )
     }
 }
 
