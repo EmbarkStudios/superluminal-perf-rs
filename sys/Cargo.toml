@@ -8,7 +8,7 @@ repository = "https://github.com/EmbarkStudios/cmp-core-rs"
 edition = "2018"
 keywords = ["profiler", "performance", "superluminal"]
 categories = ["development-tools::profiling", "external-ffi-bindings"]
-readme = "README.md"
+#readme = "README.md"
 
 [lib]
 doctest = false
