@@ -91,10 +91,10 @@ pub fn begin_event_with_color(id: &str, color: u32) {
     }
 }
 
-/// Begin an instrumentation event with the specified ID and runtime data
+/// Begin an instrumentation event with the specified ID, runtime data, and color
 ///
 /// The data can vary for each invocation of this scope and is intended to hold information that is only available at runtime.
-pub fn begin_event_with_data(id: &str, data: &str) {
+pub fn begin_event_with_data(id: &str, data: &str, color: u32) {
     #[cfg(all(feature = "enable", target_os = "windows"))]
     unsafe {
         ffi::PerformanceAPI_BeginEvent_N(
@@ -102,7 +102,7 @@ pub fn begin_event_with_data(id: &str, data: &str) {
             id.len() as u16,
             data.as_ptr() as *const i8,
             data.len() as u16,
-            ffi::DEFAULT_COLOR,
+            color,
         )
     }
 }
