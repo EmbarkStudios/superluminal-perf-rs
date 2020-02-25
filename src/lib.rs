@@ -64,48 +64,43 @@ pub const fn enabled() -> bool {
 }
 
 /// Begin an instrumentation event with the specified ID
-///
-/// # Panics
-///
-/// Panics if the id is not a UTF-8 encoded and null-terminated string or if it contains interior nulls
-pub fn begin_event(id: &'static [u8]) {
+pub fn begin_event(id: &str) {
     #[cfg(all(feature = "enable", target_os = "windows"))]
     unsafe {
-        let id_cstr = std::ffi::CStr::from_bytes_with_nul(id)
-            .expect("Invalid ID string, must be null-terminated and not contain interior null");
-        ffi::PerformanceAPI_BeginEvent(id_cstr.as_ptr(), std::ptr::null(), ffi::DEFAULT_COLOR)
+        ffi::PerformanceAPI_BeginEvent_N(
+            id.as_ptr() as *const i8, 
+            id.len() as u16, 
+            std::ptr::null(),
+            0,
+            ffi::DEFAULT_COLOR)
     }
 }
 
 /// Begin an instrumentation event with the specified ID and color
-///
-/// # Panics
-///
-/// Panics if the id is not a UTF-8 encoded and null-terminated string or if it contains interior nulls
-pub fn begin_event_with_color(id: &'static [u8], color: u32) {
+pub fn begin_event_with_color(id: &str, color: u32) {
     #[cfg(all(feature = "enable", target_os = "windows"))]
     unsafe {
-        let id_cstr = std::ffi::CStr::from_bytes_with_nul(id)
-            .expect("Invalid ID string, must be null-terminated and not contain interior null");
-        ffi::PerformanceAPI_BeginEvent(id_cstr.as_ptr(), std::ptr::null(), color)
+        ffi::PerformanceAPI_BeginEvent_N(
+            id.as_ptr() as *const i8, 
+            id.len() as u16, 
+            std::ptr::null(),
+            0,
+            color)
     }
 }
 
 /// Begin an instrumentation event with the specified ID and runtime data
 ///
 /// The data can vary for each invocation of this scope and is intended to hold information that is only available at runtime.
-///
-/// # Panics
-///
-/// Panics if the id or data is not a UTF-8 encoded and null-terminated string or if it contains interior nulls
-pub fn begin_event_with_data(id: &'static [u8], data: &[u8]) {
+pub fn begin_event_with_data(id: &str, data: &str) {
     #[cfg(all(feature = "enable", target_os = "windows"))]
     unsafe {
-        let id_cstr = std::ffi::CStr::from_bytes_with_nul(id)
-            .expect("Invalid ID string, must be null-terminated and not contain interior null");
-        let data_cstr = std::ffi::CStr::from_bytes_with_nul(data)
-            .expect("Invalid data string, must be null-terminated and not contain interior null");
-        ffi::PerformanceAPI_BeginEvent(id_cstr.as_ptr(), data_cstr.as_ptr(), ffi::DEFAULT_COLOR)
+        ffi::PerformanceAPI_BeginEvent_N(
+            id.as_ptr() as *const i8, 
+            id.len() as u16, 
+            data.as_ptr() as *const i8, 
+            data.len() as u16, 
+            ffi::DEFAULT_COLOR)
     }
 }
 

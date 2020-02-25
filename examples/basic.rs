@@ -19,14 +19,14 @@ fn heavy_calc2() -> Wrapping<u64> {
 fn big_fn() {
     // work 1
 
-    superluminal_perf::begin_event(b"example-work1\0");
+    superluminal_perf::begin_event("example-work1");
     let v = heavy_calc1();
     superluminal_perf::end_event();
     println!("work1 done: {}", v);
 
     // work 2
 
-    superluminal_perf::begin_event(b"example-work2\0");
+    superluminal_perf::begin_event("example-work2");
     let v = heavy_calc2();
     superluminal_perf::end_event();
     println!("work2 done: {}", v);
