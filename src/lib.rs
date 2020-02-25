@@ -12,11 +12,11 @@
 //! Example usage:
 //!
 //! ```rust
-//! superluminal_perf::begin_event(b"my-event\0");
+//! superluminal_perf::begin_event("my-event");
 //! calc();
 //! superluminal_perf::end_event();
 //!
-//! superluminal_perf::begin_event(b"my-event2\0");
+//! superluminal_perf::begin_event("my-event2");
 //! calc2();
 //! superluminal_perf::end_event();
 //! ```
