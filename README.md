@@ -46,7 +46,7 @@ Licensed under either of
 
 at your option.
 
-Note that Superluminal's Performance C API itself, that is crate uses and embeds, is licensed under BSD.
+Note that the Superluminal Performance C API, that is crate uses and embeds, is licensed under BSD.
 
 ### Contribution
 
