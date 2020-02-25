@@ -76,6 +76,14 @@ extern "C" {
 	void PerformanceAPI_SetCurrentThreadName(const char* inThreadName);
 
 	/**
+	 * Set the name of the current thread to the specified thread name. 
+	 *
+	 * @param inThreadName The thread name as an UTF8 encoded string.
+	 * @param inThreadNameLength The length of the thread name, in characters, excluding the null terminator.
+	 */
+	void PerformanceAPI_SetCurrentThreadName_N(const char* inThreadName, uint16_t inThreadNameLength);
+
+	/**
 	 * Begin an instrumentation event with the specified ID and runtime data
 	 *
 	 * @param inID    The ID of this scope as an UTF8 encoded string. The ID for a specific scope must be the same over the lifetime of the program (see docs at the top of this file)
@@ -86,6 +94,16 @@ extern "C" {
 	 *
 	 */
 	void PerformanceAPI_BeginEvent(const char* inID, const char* inData, uint32_t inColor);
+
+	/**
+	 * Begin an instrumentation event with the specified ID and runtime data, both with an explicit length.
+	 
+	 * It works the same as the regular BeginEvent function (see docs above). The difference is that it allows you to specify the length of both the ID and the data,
+	 * which is useful for languages that do not have null-terminated strings.
+	 *
+	 * Note: both lengths should be specified in the number of characters, not bytes, excluding the null terminator.
+	 */
+	void PerformanceAPI_BeginEvent_N(const char* inID, uint16_t inIDLength, const char* inData, uint16_t inDataLength, uint32_t inColor);
 
 	/**
 	 * Begin an instrumentation event with the specified ID and runtime data
@@ -99,6 +117,16 @@ extern "C" {
 	void PerformanceAPI_BeginEvent_Wide(const wchar_t* inID, const wchar_t* inData, uint32_t inColor);
 
 	/**
+	 * Begin an instrumentation event with the specified ID and runtime data, both with an explicit length.
+	 
+	 * It works the same as the regular BeginEvent_Wide function (see docs above). The difference is that it allows you to specify the length of both the ID and the data,
+	 * which is useful for languages that do not have null-terminated strings.
+	 *
+	 * Note: both lengths should be specified in the number of characters, not bytes, excluding the null terminator.
+	 */
+	void PerformanceAPI_BeginEvent_Wide_N(const wchar_t* inID, uint16_t inIDLength, const wchar_t* inData, uint16_t inDataLength, uint32_t inColor);
+
+	/**
 	 * End an instrumentation event. Must be matched with a call to BeginEvent within the same function
 	 * Note: the return value can be ignored. It is only there to prevent calls to the function from being optimized to jmp instructions as part of tail call optimization.
 	 */
@@ -108,8 +136,11 @@ extern "C" {
 	#define PERFORMANCEAPI_DEFAULT_COLOR 0xFFFFFFFF
 
 	inline void PerformanceAPI_SetCurrentThreadName(const char* inThreadName) {}
+	inline void PerformanceAPI_SetCurrentThreadName_N(const char* inThreadName, uint16_t inThreadNameLength) {}
 	inline void PerformanceAPI_BeginEvent(const char* inID, const char* inData, uint32_t inColor) {}
+	inline void PerformanceAPI_BeginEvent_N(const char* inID, uint16_t inIDLength, const char* inData, uint16_t inDataLength, uint32_t inColor) {}
 	inline void PerformanceAPI_BeginEvent_Wide(const wchar_t* inID, const wchar_t* inData, uint32_t inColor) {}
+	inline void PerformanceAPI_BeginEvent_Wide_N(const wchar_t* inID, uint16_t inIDLength, const wchar_t* inData, uint16_t inDataLength, uint32_t inColor) {}
 	inline void PerformanceAPI_EndEvent() {}
 #endif
 
