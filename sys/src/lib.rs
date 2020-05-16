@@ -1,4 +1,4 @@
-use libc::c_char;
+use std::os::raw::c_char;
 
 pub const DEFAULT_COLOR: u32 = 0xFF_FF_FF_FF;
 
