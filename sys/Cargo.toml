@@ -1,10 +1,10 @@
 [package]
 name = "superluminal-perf-sys"
-version = "0.1.1"
+version = "0.1.2"
 description = "Superluminal Performance C API bindings"
 authors = ["Embark <opensource@embark-studios.com>", "Johan Andersson <repi@repi.se>"]
 license = "MIT OR Apache-2.0"
-repository = "https://github.com/EmbarkStudios/cmp-core-rs"
+repository = "https://github.com/EmbarkStudios/superluminal-perf-rs"
 edition = "2018"
 keywords = ["profiler", "performance", "superluminal"]
 categories = ["development-tools::profiling", "external-ffi-bindings"]
