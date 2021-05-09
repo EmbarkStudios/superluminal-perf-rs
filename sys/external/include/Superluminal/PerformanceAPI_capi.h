@@ -39,29 +39,44 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	#endif
 #endif
 
-/**
-* See PerformanceAPI.h for the high level documentation on how to use this API
-*/
+#define PERFORMANCEAPI_MAJOR_VERSION 2
+#define PERFORMANCEAPI_MINOR_VERSION 0
+#define PERFORMANCEAPI_VERSION ((PERFORMANCEAPI_MAJOR_VERSION << 16) | PERFORMANCEAPI_MINOR_VERSION)
 
+/**
+ * This header has been designed to be fully self-contained, which makes it easy to copy this header into your own source tree as needed.
+ *
+ * See PerformanceAPI.h for the high level documentation on how to use the API.
+ *
+ * Note that this header is split into two sections: 
+ * - The first section defines the static library interface. If you use these functions directly, you need to link against the PerformanceAPI static library.
+ * - The second section defines the DLL interface. The DLL interface allows you to use the API without linking to a library. Instead, you can load the DLL yourself
+ *   through LoadLibrary, then find the "PerformanceAPI_GetAPI" export through GetProcAddress. PerformanceAPI_GetAPI can be called to get a table of function pointers
+ *   to the API. A convenience function to perform the DLL load & retrieve the API functions is provided for you in a separate header, PerformanceAPI_loader.h.
+ */
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#if PERFORMANCEAPI_ENABLED
-	/**
-	 * Helper struct that is used to prevent calls to EndEvent from being optimized to jmp instructions as part of tail call optimization.
-	 * You don't ever need to do anything with this as user of the API.
-	 */
-	typedef struct
-	{
-		int64_t SuppressTailCall[3];
-	} PerformanceAPI_SuppressTailCallOptimization;
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Static library interface - if you use these functions, you need to link against the PerformanceAPI library
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+/**
+ * Helper struct that is used to prevent calls to EndEvent from being optimized to jmp instructions as part of tail call optimization.
+ * You don't ever need to do anything with this as user of the API.
+ */
+typedef struct
+{
+	int64_t SuppressTailCall[3];
+} PerformanceAPI_SuppressTailCallOptimization;
+
+#if PERFORMANCEAPI_ENABLED
 	/**
 	 * Helper function to create an uint32_t color from 3 RGB values. The R, G and B values must be in range [0, 255].
 	 * The resulting color can be passed to the BeginEvent function.
 	 */
-	#define PERFORMANCEAPI_MAKE_COLOR(R, G, B) ((((uint32_t)(R)) << 24) | (((uint32_t)(G)) << 16) | (((uint32_t)(B)) << 24))
+	#define PERFORMANCEAPI_MAKE_COLOR(R, G, B) ((((uint32_t)(R)) << 24) | (((uint32_t)(G)) << 16) | (((uint32_t)(B)) << 8) | (uint32_t)0xFF)
 
 	/**
 	 * Use this define if you don't care about the color of an event and just want to use the default
@@ -143,6 +158,43 @@ extern "C" {
 	inline void PerformanceAPI_BeginEvent_Wide_N(const wchar_t* inID, uint16_t inIDLength, const wchar_t* inData, uint16_t inDataLength, uint32_t inColor) {}
 	inline void PerformanceAPI_EndEvent() {}
 #endif
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// DLL interface - These functions can be used without linking by loading PerformanceAPI.dll and using GetProcAddress to find the PerformanceAPI_GetAPI function.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+typedef void (PerformanceAPI_SetCurrentThreadName_Func)(const char* inThreadName);
+typedef void (PerformanceAPI_SetCurrentThreadName_N_Func)(const char* inThreadName, uint16_t inThreadNameLength);
+typedef void (PerformanceAPI_BeginEvent_Func)(const char* inID, const char* inData, uint32_t inColor);
+typedef void (PerformanceAPI_BeginEvent_N_Func)(const char* inID, uint16_t inIDLength, const char* inData, uint16_t inDataLength, uint32_t inColor);
+typedef void (PerformanceAPI_BeginEvent_Wide_Func)(const wchar_t* inID, const wchar_t* inData, uint32_t inColor);
+typedef void (PerformanceAPI_BeginEvent_Wide_N_Func)(const wchar_t* inID, uint16_t inIDLength, const wchar_t* inData, uint16_t inDataLength, uint32_t inColor);
+typedef PerformanceAPI_SuppressTailCallOptimization (PerformanceAPI_EndEvent_Func)();
+
+typedef struct
+{
+	PerformanceAPI_SetCurrentThreadName_Func*	SetCurrentThreadName;
+	PerformanceAPI_SetCurrentThreadName_N_Func*	SetCurrentThreadNameN;
+	PerformanceAPI_BeginEvent_Func*				BeginEvent;
+	PerformanceAPI_BeginEvent_N_Func*			BeginEventN;
+	PerformanceAPI_BeginEvent_Wide_Func*		BeginEventWide;
+	PerformanceAPI_BeginEvent_Wide_N_Func*		BeginEventWideN;
+	PerformanceAPI_EndEvent_Func*				EndEvent;
+} PerformanceAPI_Functions;
+
+/**
+ * Entry point for the PerformanceAPI when used through a DLL. You can get the actual function from the DLL through
+ * GetProcAddress and then cast it to this function pointer. The name of the function exported from the DLL is "PerformanceAPI_GetAPI".
+ *
+ * A convenience function to find & call this function from the PerformanceAPI dll is provided in a separate header, PerformanceAPI_loader.h (PerformanceAPI_LoadFrom)
+ * 
+ * @param inVersion The version of the header that's used to request the function table. Always specify PERFORMANCEAPI_VERSION for this argument (defined at the top of this file). 
+ *					Note: the version of the header and DLL must match exactly; if it doesn't an error will be returned.
+ * @param outFunctions Pointer to a PerformanceAPI_Functions struct that will be filled with the correct function pointers to use the API
+ *
+ * @return 0 if there was an error (version mismatch), 1 on success
+ */
+typedef int (*PerformanceAPI_GetAPI_Func)(int inVersion, PerformanceAPI_Functions* outFunctions);
 
 #ifdef __cplusplus
 } // extern "C"

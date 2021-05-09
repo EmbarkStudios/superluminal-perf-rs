@@ -83,9 +83,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 namespace PerformanceAPI
 {
-	extern const int sAPIMajorVersion;
-	extern const int sAPIMinorVersion;
-
 #if PERFORMANCEAPI_ENABLED
 	// An InstrumentationScope measures the time of the scope it is contained in; time starts when the constructor is called and ends when the 
 	// destructor is called. 
