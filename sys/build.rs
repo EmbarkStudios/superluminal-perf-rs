@@ -14,5 +14,5 @@ fn main() {
         "cargo:rustc-link-search={}/external/lib/x64/",
         std::env!("CARGO_MANIFEST_DIR")
     );
-    println!("cargo:rustc-link-lib=PerformanceAPI_{}", runtime())
+    println!("cargo:rustc-link-lib=PerformanceAPI_{}", runtime());
 }

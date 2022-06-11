@@ -27,59 +27,6 @@
 //!
 //! - `enable` - this flag is used by default and enables calling the Superluminal Performance API. This can be useful to only enable the events only for specific application features
 
-// BEGIN - Embark standard lints v0.3
-// do not change or add/remove here, but one can add exceptions after this section
-// for more info see: <https://github.com/EmbarkStudios/rust-ecosystem/issues/59>
-#![deny(unsafe_code)]
-#![warn(
-    clippy::all,
-    clippy::await_holding_lock,
-    clippy::dbg_macro,
-    clippy::debug_assert_with_mut_call,
-    clippy::doc_markdown,
-    clippy::empty_enum,
-    clippy::enum_glob_use,
-    clippy::exit,
-    clippy::explicit_into_iter_loop,
-    clippy::filter_map_next,
-    clippy::fn_params_excessive_bools,
-    clippy::if_let_mutex,
-    clippy::imprecise_flops,
-    clippy::inefficient_to_string,
-    clippy::large_types_passed_by_value,
-    clippy::let_unit_value,
-    clippy::linkedlist,
-    clippy::lossy_float_literal,
-    clippy::macro_use_imports,
-    clippy::map_err_ignore,
-    clippy::map_flatten,
-    clippy::map_unwrap_or,
-    clippy::match_on_vec_items,
-    clippy::match_same_arms,
-    clippy::match_wildcard_for_single_variants,
-    clippy::mem_forget,
-    clippy::mismatched_target_os,
-    clippy::needless_borrow,
-    clippy::needless_continue,
-    clippy::option_option,
-    clippy::pub_enum_variant_names,
-    clippy::ref_option_ref,
-    clippy::rest_pat_in_fully_bound_structs,
-    clippy::string_add_assign,
-    clippy::string_add,
-    clippy::string_to_string,
-    clippy::suboptimal_flops,
-    clippy::todo,
-    clippy::unimplemented,
-    clippy::unnested_or_patterns,
-    clippy::unused_self,
-    clippy::verbose_file_reads,
-    future_incompatible,
-    nonstandard_style,
-    rust_2018_idioms
-)]
-// END - Embark standard lints v0.3
-// crate-specific exceptions:
 #![allow(unused_variables)]
 #![allow(unsafe_code)]
 
@@ -99,12 +46,12 @@ pub fn begin_event(id: &str) {
     #[cfg(all(feature = "enable", target_os = "windows"))]
     unsafe {
         ffi::PerformanceAPI_BeginEvent_N(
-            id.as_ptr() as *const i8,
+            id.as_ptr().cast::<i8>(),
             id.len() as u16,
             std::ptr::null(),
             0,
             ffi::DEFAULT_COLOR,
-        )
+        );
     }
 }
 
@@ -113,12 +60,12 @@ pub fn begin_event_with_color(id: &str, color: u32) {
     #[cfg(all(feature = "enable", target_os = "windows"))]
     unsafe {
         ffi::PerformanceAPI_BeginEvent_N(
-            id.as_ptr() as *const i8,
+            id.as_ptr().cast::<i8>(),
             id.len() as u16,
             std::ptr::null(),
             0,
             color,
-        )
+        );
     }
 }
 
@@ -129,12 +76,12 @@ pub fn begin_event_with_data(id: &str, data: &str, color: u32) {
     #[cfg(all(feature = "enable", target_os = "windows"))]
     unsafe {
         ffi::PerformanceAPI_BeginEvent_N(
-            id.as_ptr() as *const i8,
+            id.as_ptr().cast::<i8>(),
             id.len() as u16,
-            data.as_ptr() as *const i8,
+            data.as_ptr().cast::<i8>(),
             data.len() as u16,
             color,
-        )
+        );
     }
 }
 
@@ -154,6 +101,6 @@ pub fn end_event() {
 pub fn set_current_thread_name(name: &str) {
     #[cfg(all(feature = "enable", target_os = "windows"))]
     unsafe {
-        ffi::PerformanceAPI_SetCurrentThreadName_N(name.as_ptr() as *const i8, name.len() as u16)
+        ffi::PerformanceAPI_SetCurrentThreadName_N(name.as_ptr().cast::<i8>(), name.len() as u16);
     }
 }
