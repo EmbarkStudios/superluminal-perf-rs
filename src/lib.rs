@@ -42,7 +42,7 @@ pub const fn enabled() -> bool {
 }
 
 /// Begin an instrumentation event with the specified ID
-pub fn begin_event(id: &str) {
+pub fn begin_event(id: &'static str) {
     #[cfg(all(feature = "enable", target_os = "windows"))]
     unsafe {
         ffi::PerformanceAPI_BeginEvent_N(
@@ -56,7 +56,7 @@ pub fn begin_event(id: &str) {
 }
 
 /// Begin an instrumentation event with the specified ID and color
-pub fn begin_event_with_color(id: &str, color: u32) {
+pub fn begin_event_with_color(id: &'static str, color: u32) {
     #[cfg(all(feature = "enable", target_os = "windows"))]
     unsafe {
         ffi::PerformanceAPI_BeginEvent_N(
@@ -72,7 +72,7 @@ pub fn begin_event_with_color(id: &str, color: u32) {
 /// Begin an instrumentation event with the specified ID, runtime data, and color
 ///
 /// The data can vary for each invocation of this scope and is intended to hold information that is only available at runtime.
-pub fn begin_event_with_data(id: &str, data: &str, color: u32) {
+pub fn begin_event_with_data(id: &'static str, data: &str, color: u32) {
     #[cfg(all(feature = "enable", target_os = "windows"))]
     unsafe {
         ffi::PerformanceAPI_BeginEvent_N(
