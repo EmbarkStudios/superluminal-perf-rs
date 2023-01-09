@@ -6,7 +6,7 @@
 //!
 //! ```toml
 //! [dependencies]
-//! superluminal-perf = "0.1.0"
+//! superluminal-perf = "0.2.0"
 //! ```
 //!
 //! Example usage:
