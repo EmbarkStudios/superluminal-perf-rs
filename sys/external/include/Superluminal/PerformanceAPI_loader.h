@@ -36,7 +36,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	#define PERFORMANCEAPI_API static inline
 #endif
 
-#ifdef PERFORMANCEAPI_ENABLED
+#if PERFORMANCEAPI_ENABLED
 	typedef HMODULE PerformanceAPI_ModuleHandle;
 #else
 	typedef void* PerformanceAPI_ModuleHandle;
