@@ -15,7 +15,7 @@ In `Cargo.toml` add:
 
 ```toml
 [dependencies]
-superluminal-perf = "0.2.0"
+superluminal-perf = "0.3.0"
 ```
 
 Example usage:
