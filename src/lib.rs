@@ -104,3 +104,39 @@ pub fn set_current_thread_name(name: &str) {
         ffi::PerformanceAPI_SetCurrentThreadName_N(name.as_ptr().cast::<i8>(), name.len() as u16);
     }
 }
+
+/// Register a Windows Fiber
+pub fn register_fiber(in_fiber_id: u64) {
+    #[cfg(all(feature = "enable", target_os = "windows"))]
+    unsafe {
+        ffi::PerformanceAPI_RegisterFiber(in_fiber_id);
+    }
+}
+
+/// Unregister a Windows Fiber
+pub fn unregister_fiber(in_fiber_id: u64) {
+    #[cfg(all(feature = "enable", target_os = "windows"))]
+    unsafe {
+        ffi::PerformanceAPI_UnregisterFiber(in_fiber_id);
+    }
+}
+
+/// Begin a Windows Fiber Switch
+///
+/// Must be called before `SwitchToFiber`.
+pub fn begin_fiber_switch(in_current_fiber_id: u64, in_new_fiber_id: u64) {
+    #[cfg(all(feature = "enable", target_os = "windows"))]
+    unsafe {
+        ffi::PerformanceAPI_BeginFiberSwitch(in_current_fiber_id, in_new_fiber_id);
+    }
+}
+
+/// End a Windows Fiber Switch
+///
+/// Must be called after `SwitchToFiber`.
+pub fn end_fiber_switch(in_fiber_id: u64) {
+    #[cfg(all(feature = "enable", target_os = "windows"))]
+    unsafe {
+        ffi::PerformanceAPI_EndFiberSwitch(in_fiber_id);
+    }
+}

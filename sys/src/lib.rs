@@ -24,4 +24,12 @@ extern "C" {
     );
 
     pub fn PerformanceAPI_EndEvent() -> PerformanceAPI_SuppressTailCallOptimization;
+
+    pub fn PerformanceAPI_RegisterFiber(in_fiber_id: u64);
+
+    pub fn PerformanceAPI_UnregisterFiber(in_fiber_id: u64);
+
+    pub fn PerformanceAPI_BeginFiberSwitch(in_current_fiber_id: u64, in_new_fiber_id: u64);
+
+    pub fn PerformanceAPI_EndFiberSwitch(in_fiber_id: u64);
 }
