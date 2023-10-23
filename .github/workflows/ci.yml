@@ -46,11 +46,25 @@ jobs:
         with:
           toolchain: stable
           override: true
+      # When under Windows, add the x86 target as well.
+      - if: runner.os == 'Windows'
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          target: i686-pc-windows-msvc
+          override: true
 
-      - name: cargo build
+      - name: cargo test
         uses: actions-rs/cargo@v1
         with:
           command: test
+      # When under Windows, run with the x86 target as well.
+      - if: runner.os == 'Windows'
+        name: cargo test
+        uses: actions-rs/cargo@v1
+        with:
+          command: test
+          args: --target i686-pc-windows-msvc
 
   example:
     name: Example
@@ -64,15 +78,36 @@ jobs:
         with:
           toolchain: stable
           override: true
+      # When under Windows, add the x86 target as well.
+      - if: runner.os == 'Windows'
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          target: i686-pc-windows-msvc
+          override: true
 
       - name: cargo build
         uses: actions-rs/cargo@v1
         with:
           command: build
           args: --release
+      # When under Windows, build with the x86 target as well.
+      - if: runner.os == 'Windows'
+        name: cargo build
+        uses: actions-rs/cargo@v1
+        with:
+          command: build
+          args: --target i686-pc-windows-msvc --release
 
       - name: run example
         uses: actions-rs/cargo@v1
         with:
           command: run
           args: --release --example basic
+      # When under Windows, run with the x86 target as well.
+      - if: runner.os == 'Windows'
+        name: run example
+        uses: actions-rs/cargo@v1
+        with:
+          command: run
+          args: --target i686-pc-windows-msvc --release --example basic
