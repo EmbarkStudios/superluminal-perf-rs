@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+- Add support for x86 32-bit ([#19](https://github.com/EmbarkStudios/superluminal-perf-rs/pull/19))
+
 ## 0.3.0 - 2023-06-15
 
 - Upgraded C API to 3.0
