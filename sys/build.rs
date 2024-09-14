@@ -12,10 +12,12 @@ fn runtime() -> &'static str {
 }
 
 fn arch() -> &'static str {
-    if env::var("CARGO_CFG_TARGET_ARCH").as_deref() == Ok("x86") {
-        "x86"
-    } else {
-        "x64"
+    match env::var("CARGO_CFG_TARGET_ARCH").as_deref() {
+        Ok("x86") => "x86",
+        Ok("x86_64") => "x64",
+        Ok("aarch64") => "arm64",
+        Ok("arm64ec") => "arm64ec",
+        Ok(_) | Err(_) => panic!("Unsupported architecture!"),
     }
 }
 
