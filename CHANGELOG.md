@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## 0.4.0 - 2025-05-07
+
 - Update to latests PerformanceAPI version (2.0, from 1.0 as of 14-SEP-2024) and add arm/arm64ec support
 - Add support for x86 32-bit ([#19](https://github.com/EmbarkStudios/superluminal-perf-rs/pull/19))
 
