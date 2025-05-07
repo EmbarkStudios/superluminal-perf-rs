@@ -1,6 +1,6 @@
 [package]
 name = "superluminal-perf"
-version = "0.3.0"
+version = "0.4.0"
 description = "Superluminal Performance API for adding user events to profiler captures"
 authors = [
     "Embark <opensource@embark-studios.com>",
@@ -20,7 +20,7 @@ members = ["sys"]
 doctest = false
 
 [target.'cfg(windows)'.dependencies]
-superluminal-perf-sys = { version = "0.3.0", path = "sys" }
+superluminal-perf-sys = { version = "0.4.0", path = "sys" }
 
 [features]
 default = ["enable"]
